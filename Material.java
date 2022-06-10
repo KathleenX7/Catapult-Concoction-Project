@@ -1,12 +1,28 @@
-public class Material{
-    private String toolUsed; 
-    private String type;
-    public Material(String type, String toolUsed){
-        this.type = type;
-        this.toolUsed = toolUsed;
-    }
+import java.io.File;
+import java.io.IOException;
 
-    public String toolUsed(){
-        return this.toolUsed;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+
+public class Material extends InventoryItem{
+    
+    private int amount;
+    public Material(String type) throws IOException{
+        super(type);
+        this.amount = 0;
+
+        if(type.equals("Wood")){
+            this.setImage(ImageIO.read(new File("./Images/Materials/Wood.png")));
+        }else if(type.equals("Arduino")){
+            this.setImage(ImageIO.read(new File("./Images/Materials/Arduino.png")));
+        }else{
+            this.setImage(ImageIO.read(new File("./Images/Materials/Rope.png")));
+        }
+
+    }
+    public void addAmount(){
+        this.amount++;
+    }public int getAmount(){
+        return this.amount;
     }
 }

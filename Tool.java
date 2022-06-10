@@ -1,15 +1,17 @@
-public class Tool extends Object{
-    private String toolType;
-    private Material materialBroken;
-    private boolean inInventory;
-    public Tool(int x, int y, int width, int height, String toolType, Material materialBroken){
-        super(x,y,width,height);
-        this.materialBroken = materialBroken;
-        this.toolType = toolType;
-        this.inInventory = false;
-    }
+import java.io.File;
+import java.io.IOException;
 
-    public Material getMaterialBroken(){
-        return this.materialBroken;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+
+public class Tool extends InventoryItem{
+    public Tool(String type) throws IOException{
+        super(type);
+
+        if(type.equals("Axe")){
+            this.setImage(ImageIO.read(new File("./Images/Tools/Axe.png")));
+        }else if(type.equals("Scissors")){
+            this.setImage(ImageIO.read(new File("./Images/Tools/Scissors.png")));
+        }
     }
 }
