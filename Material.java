@@ -6,11 +6,8 @@ import java.awt.image.BufferedImage;
 
 public class Material extends InventoryItem{
     
-    private int amount;
     public Material(String type) throws IOException{
         super(type);
-        this.amount = 0;
-
         if(type.equals("Wood")){
             this.setImage(ImageIO.read(new File("./Images/Materials/Wood.png")));
         }else if(type.equals("Arduino")){
@@ -19,10 +16,5 @@ public class Material extends InventoryItem{
             this.setImage(ImageIO.read(new File("./Images/Materials/Rope.png")));
         }
 
-    }
-    public void addAmount(){
-        this.amount++;
-    }public int getAmount(){
-        return this.amount;
     }
 }

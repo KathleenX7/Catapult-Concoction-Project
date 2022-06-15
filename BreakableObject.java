@@ -1,3 +1,10 @@
+/**
+ * BreakableObject.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * Type of map object that neeeds a tool to be broken
+ */
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,8 +24,9 @@ public class BreakableObject extends MapObject{
         this.setText();
         
     }
+    
 
-    public void setText() throws IOException{
+    public void setText() throws IOException{ //set the text when the player collides with the object
         if(dropped.getType().equals("Wood")){
             missingToolText = ImageIO.read(new File("./Images/Text/NeedAxe.png"));
             hasToolText = ImageIO.read(new File("./Images/Text/PressB.png"));
@@ -26,6 +34,10 @@ public class BreakableObject extends MapObject{
             missingToolText = ImageIO.read(new File("./Images/Text/NeedScissors.png"));
             hasToolText = ImageIO.read(new File("./Images/Text/PressB.png"));
         }
+    }
+    //getters 
+    public boolean getIsGood(){
+        return this.isGood;
     }
     public BufferedImage getMissingToolText(){
         return this.missingToolText;
@@ -35,5 +47,8 @@ public class BreakableObject extends MapObject{
     }
     public Tool getTool(){
         return this.toolNeeded;
+    }
+    public Material getMaterial(){
+        return this.dropped;
     }
 }

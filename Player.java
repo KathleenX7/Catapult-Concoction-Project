@@ -1,10 +1,6 @@
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
 public class Player extends Object{
@@ -36,8 +32,17 @@ public class Player extends Object{
     public boolean containsTool(Tool temp){
         return toolInventory.contains(temp);
     }
+    public Map<Material, Integer> getMaterials(){
+        return this.materialInventory;
+    }
+    public int getNum(Material o){
+        return materialInventory.get(o);
+    }
+    public ArrayList<Tool> getTools(){
+        return this.toolInventory;
+    }
     public void addMaterial(Material o){
-        if(materialInventory.containsKey(o)){
+        if(!materialInventory.containsKey(o)){
             materialInventory.put(o, 1);
         }else{
             materialInventory.put(o, materialInventory.get(o) + 1);

@@ -21,6 +21,9 @@ public class Room extends Screen{
     public void addItem(MapObject item){
         items.add(item);
     }
+    public void removeIndex(int ind){
+        items.remove(ind);
+    }
     public BufferedImage getBackground(){
         return this.backgroundImage;
     }
