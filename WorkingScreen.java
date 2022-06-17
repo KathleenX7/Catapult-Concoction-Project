@@ -8,14 +8,12 @@
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Room extends Screen{
-    private String name;
+public class WorkingScreen extends Screen{
     private BufferedImage backgroundImage;
     private ArrayList<MapObject> items;
-
-    public Room(String name){
-        super("1");
-        this.name = name;
+    
+    public WorkingScreen(){
+        super("2");
         items = new ArrayList<MapObject>();
     }
 
@@ -35,3 +33,16 @@ public class Room extends Screen{
         return items;
     }
 }
+
+/* 
+hiii ok
+
+BallComponent: try to attack the materials, if it touches, game over?
+Spamming letters:
+- e: extra time 
+- w: work
+- a: assemble 
+- s: study
+  
+ 
+*/

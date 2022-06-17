@@ -1,7 +1,14 @@
-import java.awt.image.BufferedImage;
-import java.awt.*;
+/**
+ * OpeningObject.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * Objects in the Opening Screen
+ */
 
-public class OpeningObject extends Object{
+import java.awt.image.BufferedImage;
+import java.awt.Color;
+
+public class OpeningObject extends GameObject{
     private int width, height;
     private BufferedImage sprite;
     private BufferedImage smallSprite;

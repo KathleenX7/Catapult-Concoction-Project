@@ -1,8 +1,14 @@
+/**
+ * Tool.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * InventoryItems that are used to destroy materials
+ */
+
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 
 public class Tool extends InventoryItem{
     public Tool(String type) throws IOException{
@@ -13,5 +19,6 @@ public class Tool extends InventoryItem{
         }else if(type.equals("Scissors")){
             this.setImage(ImageIO.read(new File("./Images/Tools/Scissors.png")));
         }
+        
     }
 }

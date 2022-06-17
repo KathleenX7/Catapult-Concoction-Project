@@ -1,8 +1,13 @@
 import java.io.File;
 import java.io.IOException;
+/**
+ * Material.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * InventoryItems that are materials (require a certain amount to move onto the next stage)
+ */
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 
 public class Material extends InventoryItem{
     

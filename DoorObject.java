@@ -1,3 +1,10 @@
+/**
+ * DoorObjects.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * A MapObjects door that leads to a different room
+ */
+
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;

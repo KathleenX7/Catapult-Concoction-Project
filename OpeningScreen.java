@@ -1,8 +1,12 @@
+/**
+ * OpeningScreen.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * Screens with information and buttons
+ */
+
 import java.util.ArrayList;
-import java.io.File;
 import java.io.IOException;
-import java.awt.*;
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
 public class OpeningScreen extends Screen{

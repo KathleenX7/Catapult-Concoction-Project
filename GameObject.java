@@ -1,10 +1,17 @@
-abstract class Object {
+/**
+ * Object.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * Stores the coordinates for different objects on the screen
+ */
+
+abstract class GameObject {
     private int x, y;
-    public Object(){
+    public GameObject(){
         this.x = 0;
         this.y = 0;
     }
-    public Object(int x, int y){
+    public GameObject(int x, int y){
         this.x = x;
         this.y = y; 
     }

@@ -9,11 +9,11 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.*;
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 public class Main {
     public static ArrayList<Screen> screens;
     public static ArrayList<InventoryItem> inventoryItems;
+    public static Visualizer v;
     
     public static void addInventoryItems() throws IOException{
         //add materials
@@ -83,7 +83,7 @@ public class Main {
         hallway.addItem(new DoorObject(336, 180, ImageIO.read(new File("./Images/Hallway/DoorLeft.png")), 4, "Small Door", "right")); //classroom door
         hallway.addItem(new DoorObject(336, 452, ImageIO.read(new File("./Images/Hallway/DoorLeft.png")), 6, "Small Door", "right")); //pool door
         hallway.addItem(new DoorObject(432, 180, ImageIO.read(new File("./Images/Hallway/DoorRight.png")), 5, "Small Door", "left")); //office door
-        hallway.addItem(new DoorObject(432, 452 + 72, ImageIO.read(new File("./Images/Hallway/DoorRight.png")), -1, "Small Door", "left")); //exit door
+        hallway.addItem(new DoorObject(432, 452, ImageIO.read(new File("./Images/Hallway/DoorRight.png")), -1, "Small Door", "left")); //exit door
         screens.add(hallway);
     }
     public static void addOpening() throws IOException{ //screen 1
@@ -121,6 +121,39 @@ public class Main {
         opening.addElement(new OpeningObject(300, 490, 200, 80, ImageIO.read(new File("./Images/Instructions/Next.png")), null, new Color(186, 11, 98)));
 
         screens.add(opening);
+    }public static void addTwoInstruction() throws IOException{ //screen 2
+        OpeningScreen opening = new OpeningScreen();
+        opening.setBackgroundImage(ImageIO.read(new File("./Images/Instructions/InstructionBackground.png")));
+        opening.addStatic(new OpeningObject(0, 0, 800, 600, ImageIO.read(new File("./Images/Instructions/TwoInstructions.png")), Color.white));
+        opening.addElement(new OpeningObject(300, 490, 200, 80, ImageIO.read(new File("./Images/Instructions/Next.png")), null, new Color(186, 11, 98)));
+        screens.add(opening);
+    }
+    public static void addDamage() throws IOException{
+        OpeningScreen damage = new OpeningScreen();
+        damage.setBackgroundImage(ImageIO.read(new File("./Images/Instructions/InstructionBackground.png")));
+        damage.addStatic(new OpeningObject(0, 0, 800, 600, ImageIO.read(new File("./Images/Instructions/DamageInstructions.png")), Color.white));
+        damage.addElement(new OpeningObject(300, 490, 200, 80, ImageIO.read(new File("./Images/Instructions/Next.png")), null, new Color(186, 11, 98)));
+        screens.add(damage);
+    }
+    public static void addMultitasking() throws IOException{ 
+        MultitaskingScreen screen = new MultitaskingScreen();
+        screen.setBackground(ImageIO.read(new File("./Images/Multitasking/Background.png")));
+        screen.addItem(new MapObject(372, 258, ImageIO.read(new File("./Images/Multitasking/Pile.png")), "Materials"));
+        screen.addItem(new MapObject(275, 350, ImageIO.read(new File("./Images/Hearts/3Heart.png")), "Hearts"));
+        screen.addItem(new OptionalObject(0, 0, ImageIO.read(new File("./Images/Multitasking/Overtime.png")), "IfBad"));
+        screen.addItem(new MapObject(42, 110, ImageIO.read(new File("./Images/Numbers/0.png")), "HundredS"));
+        screen.addItem(new MapObject(140, 110, ImageIO.read(new File("./Images/Numbers/0.png")), "TenS"));
+        screen.addItem(new MapObject(238, 110, ImageIO.read(new File("./Images/Numbers/0.png")), "OneS"));
+
+        screen.addItem(new MapObject(480, 110, ImageIO.read(new File("./Images/Numbers/0.png")), "HundredW"));
+        screen.addItem(new MapObject(578, 110, ImageIO.read(new File("./Images/Numbers/0.png")), "TenW"));
+        screen.addItem(new MapObject(676, 110, ImageIO.read(new File("./Images/Numbers/0.png")), "OneW"));
+        
+        
+
+        screen.addLetter("s");
+        screen.addLetter("w");
+        screens.add(screen);
     }
     public static void main(String[] args) throws IOException{
         inventoryItems = new ArrayList<InventoryItem>();
@@ -128,13 +161,18 @@ public class Main {
 
         //add all screens 
         addInventoryItems();
-        addOpening();
-        addOpeningInstruction();
-        addOneInstruction();
-        addHallway();
-        addClassroom();
-        addOffice();
-        addPool();
-        Visualizer v = new Visualizer(screens, inventoryItems);
+        
+        addOpening(); //0
+        addOpeningInstruction(); //1
+        addOneInstruction(); //2
+        addHallway(); //3
+        addClassroom(); //4
+        addOffice(); //5
+        addPool(); //6
+        addTwoInstruction(); //7
+        addDamage(); //8
+        addMultitasking(); //9
+
+        v = new Visualizer(screens, inventoryItems);
     }
 }

@@ -1,7 +1,11 @@
-import java.io.File;
-import java.io.IOException;
+/**
+ * InventoryItem.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * Items that go into your inventory
+ */
 
-import javax.imageio.ImageIO;
+import java.io.IOException;
 import java.awt.image.BufferedImage;
 
 public class InventoryItem{
@@ -10,12 +14,6 @@ public class InventoryItem{
     private BufferedImage image;
     public InventoryItem(String type) throws IOException{
         this.type = type;
-
-        if(type.equals("Axe")){
-            image = ImageIO.read(new File("./Images/Tools/Axe.png"));
-        }else if(type.equals("Scissors")){
-            image = ImageIO.read(new File("./Images/Tools/Scissors.png"));
-        }
     }
     public String getType(){
         return this.type;

@@ -1,9 +1,16 @@
+/**
+ * Player.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * Player class which has an inventory and can move
+ */
+
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
 import java.awt.image.BufferedImage;
 
-public class Player extends Object{
+public class Player extends GameObject{
     private ArrayList <Tool> toolInventory;
     private Map <Material, Integer> materialInventory;
     private BufferedImage sprite;

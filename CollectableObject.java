@@ -1,8 +1,8 @@
 /**
- * Main.java
+ * CollectableObject.java
  * Kathleen Xiong
  * June 17th 2022
- * Implements visualizer and create rooms/inventory
+ * Type of MapObject that can be collected (put in inventory) but does not require a specific tool
  */
 
 import javax.imageio.ImageIO;

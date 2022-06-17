@@ -3,7 +3,4 @@ public class Screen {
     public Screen(String stage){
         this.stage = stage;
     }
-    public String getName(){
-        return this.stage;
-    }
 }

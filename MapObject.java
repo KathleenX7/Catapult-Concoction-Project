@@ -1,10 +1,13 @@
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+/**
+ * MapObject.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * Objects that appear on the map and the player sprite interacts with
+ */
 
-public class MapObject extends Object{ //anything that the user cannot pass through
+import java.awt.image.BufferedImage;
+
+public class MapObject extends GameObject{ //anything that the user cannot pass through
     private String objectType;
     private BufferedImage image;
     private int width, height;
@@ -17,9 +20,10 @@ public class MapObject extends Object{ //anything that the user cannot pass thro
         this.objectType = objectType;
         this.obstacle = 1;
         this.setWH();
-        
     }
-
+    public void setImage(BufferedImage image){
+        this.image = image;
+    }
     private void setWH(){ //set the width and height for objects
         if(objectType.equals("Teacher Table")){
             width = 160; height = 80;
@@ -44,6 +48,8 @@ public class MapObject extends Object{ //anything that the user cannot pass thro
         }else if(objectType.equals("Hallway Object")){
             width = 320;
             height = 248;
+        }else if(objectType.equals("Materials")){
+            width = height = 74;
         }
         else if(objectType.equals("Large Door")){
             width = height = 80;
