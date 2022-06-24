@@ -7,21 +7,17 @@
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
-
 import java.io.File;
-import java.io.IOException;
 
 public class MultitaskingScreen extends Screen{
-    private int totalCount = 0;
+    private int totalCount, remainingLives;
     private BufferedImage backgroundImage;
     private ArrayList<MapObject> items;
     private ArrayList<BallComponents> balls; 
     private ArrayList<SpamLetter> letters;
     private char lastKey;
     private ThreadX thread = new ThreadX();
-    private int remainingLives;
 
     public MultitaskingScreen(){
         super("2");
@@ -29,13 +25,31 @@ public class MultitaskingScreen extends Screen{
         balls = new ArrayList<BallComponents>(); 
         letters = new ArrayList<SpamLetter>();
         this.remainingLives = 3;
+        this.totalCount= 0;
     }
+    public void reset(){
+        totalCount = 0;
+        remainingLives = 3;
+        lastKey = ' ';
+        for(int i=0; i < letters.size(); i++){
+            letters.get(i).resetCnt();
+        }
+        balls.clear();
+    }
+    public void overtimeInd(int ind){
+        letters.get(ind).setRequired(300);
+        letters.get(ind).setLetter("we");
+    }
+    
+    //background 
     public void setBackground(BufferedImage backgroundImage){
         this.backgroundImage = backgroundImage;
     }
-    public void addItem(MapObject item){
-        items.add(item);
+    public BufferedImage getBackground(){
+        return this.backgroundImage;
     }
+
+    //edit lives 
     public BufferedImage getLivesImage(){
         try{
             if(remainingLives == 3) {return ImageIO.read(new File("./Images/Hearts/3Heart.png")); }
@@ -53,30 +67,38 @@ public class MultitaskingScreen extends Screen{
             remainingLives--;
         }
     }
+
+    //items
+    public ArrayList<MapObject> getItems(){
+        return items;
+    }
     public MapObject getItem(int index){
         return items.get(index);
     }
+    public void addItem(MapObject item){
+        items.add(item);
+    }
+    public void removeIndex(int ind){
+        items.remove(ind);
+    }
+
+    //count
     public void incCnt(){
         totalCount++;
     }
     public int getCnt(){
         return this.totalCount;
     }
-    public void removeIndex(int ind){
-        items.remove(ind);
-    }
+    
+    //lastKey character
     public void setLastKey(char key){
         this.lastKey = key;
     }
     public char getLastKey(){
         return this.lastKey;
     }
-    public BufferedImage getBackground(){
-        return this.backgroundImage;
-    }
-    public ArrayList<MapObject> getItems(){
-        return items;
-    }
+    
+    
     //balls
     public void addBall(){
         balls.add(new BallComponents());
@@ -105,13 +127,10 @@ public class MultitaskingScreen extends Screen{
     public void addLetter(String l){
         letters.add(new SpamLetter(l));
     }
-    public void overtimeInd(int ind){
-        letters.get(ind).setRequired(300);
-        letters.get(ind).setLetter("we");
-    }
 
     //thread
     public void startThread(){
+        thread.restart();
         Thread threadX = new Thread(thread);
         threadX.start(); 
     }
@@ -122,7 +141,7 @@ public class MultitaskingScreen extends Screen{
         private volatile boolean exit = false;
         public void run(){
             while(!exit){
-                int rand = (int)(Math.random() * 1000) + 1000;
+                int rand = (int)(Math.random() * 2000) + 1250;
                 try  {Thread.sleep(rand);} catch(Exception e){}
                 addBall();
                 if(getCnt() > 50){
@@ -135,6 +154,9 @@ public class MultitaskingScreen extends Screen{
         }
         public void stop() {
             exit = true;
+        }
+        public void restart(){
+            exit =false;
         }
     }
 }

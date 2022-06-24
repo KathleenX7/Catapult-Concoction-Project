@@ -17,9 +17,8 @@ public class OpeningScreen extends Screen{
         super("opening");
         elements = new ArrayList<OpeningObject>();
         staticElements = new ArrayList<OpeningObject>();
-        
     }
-
+    //setters
     public void setBackgroundImage(BufferedImage i){
         backgroundImage = i;
     }
@@ -29,6 +28,7 @@ public class OpeningScreen extends Screen{
     public void addElement(OpeningObject o){
         elements.add(o);
     }
+    //getters 
     public ArrayList<OpeningObject> getElements(){
         return elements;
     }

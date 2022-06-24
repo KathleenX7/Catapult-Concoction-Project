@@ -26,6 +26,7 @@ public class WorkingScreen extends Screen{
     public void removeIndex(int ind){
         items.remove(ind);
     }
+    //getters
     public BufferedImage getBackground(){
         return this.backgroundImage;
     }
@@ -33,16 +34,3 @@ public class WorkingScreen extends Screen{
         return items;
     }
 }
-
-/* 
-hiii ok
-
-BallComponent: try to attack the materials, if it touches, game over?
-Spamming letters:
-- e: extra time 
-- w: work
-- a: assemble 
-- s: study
-  
- 
-*/

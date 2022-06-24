@@ -14,16 +14,21 @@ public class DoorObject extends MapObject{
     private int leadToIndex;
     private BufferedImage text;
     private String lr;
-    public DoorObject(int x, int y, BufferedImage image, int leadToIndex, String objectType, String lr) throws IOException{
+    public DoorObject(int x, int y, BufferedImage image, int leadToIndex, String objectType, String lr){
         super(x,y, image, objectType);
-        this.leadToIndex = leadToIndex;
-        this.lr = lr;
-        if(lr.equals("left")){
-            text = ImageIO.read(new File("./Images/Text/PressELeft.png"));
-        }else{
-            text = ImageIO.read(new File("./Images/Text/PressE.png"));
-        }
+        this.leadToIndex = leadToIndex; //based on screen index
+
+        this.lr = lr; //direction of text box
+        try{
+            if(lr.equals("left")){
+                text = ImageIO.read(new File("./Images/Text/PressELeft.png"));
+            }else{
+                text = ImageIO.read(new File("./Images/Text/PressE.png"));
+            }
+        }catch (IOException e){}
+        
     }
+    //getters 
     public String getLeftRight(){
         return this.lr;
     }

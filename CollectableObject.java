@@ -14,16 +14,18 @@ public class CollectableObject extends MapObject{
     private InventoryItem dropped;
     private BufferedImage text;
     
-    public CollectableObject(int x, int y, BufferedImage image, String objectType, InventoryItem dropped) throws IOException{
+    public CollectableObject(int x, int y, BufferedImage image, String objectType, InventoryItem dropped){
         super(x,y, image, objectType); 
         this.dropped = dropped;
         this.setText();
     }
-
-    public void setText() throws IOException{
-        text = ImageIO.read(new File("./Images/Text/PressC.png"));
-        
+    //setters
+    public void setText(){
+        try{
+            text = ImageIO.read(new File("./Images/Text/PressC.png"));
+        }catch(IOException e){}
     }
+    //getters
     public BufferedImage getText(){
         return this.text;
     }

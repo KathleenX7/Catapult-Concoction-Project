@@ -1,17 +1,20 @@
+/**
+ * BallComponents.java
+ * Kathleen Xiong
+ * June 17th 2022
+ * Stage 2 ball class 
+ */
+
 import java.awt.Color;
 
 class BallComponents {
-    private double x;
-    private double y;
-    private double angle;
-    private int speed;
-    private int ballD;
+    private double x, y, angle;
+    private int speed, ballDiameter;
     private Color colour;
     private ThreadX thread = new ThreadX();
 
     public BallComponents(){
-        ballD = (int) (Math.random() * 50 + 25);
-        int rand = (int)(Math.random() * 4);
+        int rand = (int)(Math.random() * 4); //decide which edge the ball begins; 0 = top, 1 = bottom, left = 2, right = 3
         if(rand == 0 || rand == 1){
             x = (int) (Math.random() * (800));
             y = rand * 600;
@@ -19,14 +22,17 @@ class BallComponents {
             y = (int) (Math.random() * (600));
             x = (rand-2) * 800;
         }
+
         if(x== 400){ this.angle = 90; }
         else{ this.angle = Math.atan((300.0 - y)/(400.0 - x)); }
         
         speed = (int) (Math.random() * 5 + 2);
-        ballD = (int) (Math.random() * 10 + 30);
+        ballDiameter = (int) (Math.random() * 10 + 30);
         colour = new Color((int)(Math.random()*256), (int)(Math.random()*256), (int)(Math.random()*256));
         runThreads();
     }
+
+    //getters
     public double getX(){
         return this.x;
     }
@@ -37,11 +43,20 @@ class BallComponents {
         return this.speed;
     }
     public int getBallD(){
-        return this.ballD;
+        return this.ballDiameter;
     }
     public Color getColour(){
         return this.colour;
     }
+    
+    public boolean collision(int x, int y){
+        if(this.x <= x && this.x + this.ballDiameter >= x && this.y < y && this.y + this.ballDiameter > y){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    //thread
     public void endThread(){
         thread.stop();
     }
@@ -49,15 +64,8 @@ class BallComponents {
         Thread threadX = new Thread(thread);
         threadX.start();
     }
-    public boolean collision(int x, int y){
-
-        if(this.x <= x && this.x + this.ballD >= x && this.y < y && this.y + this.ballD > y){
-            return true;
-        }else{
-            return false;
-        }
-    }
-//------------------------------------------------------------------------------        
+    
+//------------------------------------------------------------------------------
     
     public class ThreadX implements Runnable {
         private volatile boolean exit = false;

@@ -16,6 +16,7 @@ public class Player extends GameObject{
     private BufferedImage sprite;
     private int speed;
     private int width, height;
+
     public Player(){
         super();
         speed = 10;
@@ -31,29 +32,44 @@ public class Player extends GameObject{
         height = 80;
         width = 60;
     }
+    //getters
     public int getH(){
         return this.height;
     }public int getW(){
         return this.width;
     }
-    public boolean containsTool(Tool temp){
-        return toolInventory.contains(temp);
+    public int getNum(Material m){
+        return materialInventory.get(m);
     }
-    public Map<Material, Integer> getMaterials(){
-        return this.materialInventory;
-    }
-    public int getNum(Material o){
-        return materialInventory.get(o);
+    public int getMaterialSize(){
+        return materialInventory.size();
     }
     public ArrayList<Tool> getTools(){
         return this.toolInventory;
     }
+    public BufferedImage getSprite(){
+        return this.sprite;
+    }
+    public Map<Material, Integer> getMaterials(){
+        return this.materialInventory;
+    }
+    
     public void addMaterial(Material o){
         if(!materialInventory.containsKey(o)){
             materialInventory.put(o, 1);
         }else{
             materialInventory.put(o, materialInventory.get(o) + 1);
         }
+    }
+    public void addTool(Tool t){
+        toolInventory.add(t);
+    }
+    public void setSprite(BufferedImage sprite){
+        this.sprite = sprite;
+    }
+
+    public boolean containsTool(Tool temp){
+        return toolInventory.contains(temp);
     }
     public void move(char k){
         if(k == 'd'){ //right
@@ -65,14 +81,5 @@ public class Player extends GameObject{
         }else{
             this.setY(this.getY() + this.speed);
         }
-    }
-    public void addTool(Tool t){
-        toolInventory.add(t);
-    }
-    public void setSprite(BufferedImage sprite){
-        this.sprite = sprite;
-    }
-    public BufferedImage getSprite(){
-        return this.sprite;
     }
 }

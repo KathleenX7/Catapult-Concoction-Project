@@ -14,17 +14,15 @@ public class BreakableObject extends MapObject{
     private boolean isGood;
     private Material dropped;
     private Tool toolNeeded;
-    private BufferedImage missingToolText;
-    private BufferedImage hasToolText;
+    private BufferedImage missingToolText, hasToolText;
+    
     public BreakableObject(int x, int y, BufferedImage image, String objectType, InventoryItem dropped, InventoryItem toolNeeded, boolean isGood) throws IOException{
         super(x,y, image, objectType);
         this.isGood = isGood;
         this.dropped = (Material) dropped;
         this.toolNeeded = (Tool) toolNeeded;
         this.setText();
-        
     }
-    
 
     public void setText() throws IOException{ //set the text when the player collides with the object
         if(dropped.getType().equals("Wood")){
@@ -35,6 +33,7 @@ public class BreakableObject extends MapObject{
             hasToolText = ImageIO.read(new File("./Images/Text/PressB.png"));
         }
     }
+    
     //getters 
     public boolean getIsGood(){
         return this.isGood;

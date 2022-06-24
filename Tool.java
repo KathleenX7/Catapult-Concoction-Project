@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 public class Tool extends InventoryItem{
     public Tool(String type) throws IOException{
         super(type);
-
         if(type.equals("Axe")){
             this.setImage(ImageIO.read(new File("./Images/Tools/Axe.png")));
         }else if(type.equals("Scissors")){

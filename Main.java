@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.awt.*;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
+
 public class Main {
     public static ArrayList<Screen> screens;
     public static ArrayList<InventoryItem> inventoryItems;
@@ -24,8 +25,9 @@ public class Main {
         inventoryItems.add(new Tool("Axe"));
         inventoryItems.add(new Tool("Scissors"));
     }
+
     public static void addClassroom() throws IOException{
-        Room classroom = new Room("Classroom");
+        Room classroom = new Room();
         classroom.setBackground(ImageIO.read(new File("./Images/Floor.png")));
         classroom.addItem(new DoorObject(720, 80, ImageIO.read(new File("./Images/Classroom/Door.png")), 3, "Large Door", "left"));
         classroom.addItem(new MapObject(40, 72, ImageIO.read(new File("./Images/Classroom/TeacherTable.png")), "Teacher Table"));
@@ -46,7 +48,7 @@ public class Main {
         screens.add(classroom);
     }
     public static void addOffice() throws IOException{
-        Room office = new Room("Office");
+        Room office = new Room();
         office.setBackground(ImageIO.read(new File("./Images/Floor.png")));
         office.addItem(new DoorObject(360, 520, ImageIO.read(new File("./Images/Office/Door.png")), 3, "Large Door", "right"));
         office.addItem(new MapObject(0, 36, ImageIO.read(new File("./Images/Office/OfficeLeft.png")), "Office Table"));
@@ -58,19 +60,19 @@ public class Main {
         screens.add(office);
     }
     public static void addPool() throws IOException{
-        Room pool = new Room("Pool");
+        Room pool = new Room();
         pool.setBackground(ImageIO.read(new File("./Images/Pool/PoolBackground.png")));
         pool.addItem(new DoorObject(720, 80, ImageIO.read(new File("./Images/Classroom/Door.png")), 3, "Large Door", "left"));
         pool.addItem(new MapObject(105, 105, ImageIO.read(new File("./Images/Pool/Pool.png")), "Pool"));
         
-        pool.addItem(new CollectableObject(8, 76, ImageIO.read(new File("./Images/Tools/Axe.png")), "Axe", inventoryItems.get(3)));
+        pool.addItem(new CollectableObject(280, 510, ImageIO.read(new File("./Images/Tools/Axe.png")), "Axe", inventoryItems.get(3)));
         pool.addItem(new BreakableObject(95, 202, ImageIO.read(new File("./Images/Pool/PoolRope.png")), "Pool Rope", inventoryItems.get(2), inventoryItems.get(4), true));
         pool.addItem(new BreakableObject(95, 302, ImageIO.read(new File("./Images/Pool/PoolRope.png")), "Pool Rope", inventoryItems.get(2), inventoryItems.get(4), true));
         pool.addItem(new BreakableObject(95, 402, ImageIO.read(new File("./Images/Pool/PoolRope.png")), "Pool Rope", inventoryItems.get(2), inventoryItems.get(4), true));
         
         screens.add(pool);
     }public static void addHallway() throws IOException{
-        Room hallway = new Room("Hallway");
+        Room hallway = new Room();
         hallway.setBackground(ImageIO.read(new File("./Images/Hallway/HallwayBackground.png")));
         hallway.addItem(new MapObject(370, 72, null, ""));
         //add images of the rooms 
@@ -89,7 +91,7 @@ public class Main {
     public static void addOpening() throws IOException{ //screen 1
         OpeningScreen opening = new OpeningScreen();
         opening.setBackgroundImage(ImageIO.read(new File("./Images/Floor.png")));
-        opening.addStatic(new OpeningObject(160, 15, 100, 9, ImageIO.read(new File("./Images/Title.png")), Color.white));
+        opening.addStatic(new OpeningObject(100, 15, 100, 9, ImageIO.read(new File("./Images/Title.png")), Color.white));
 
         //allow player to choose their sprite design
         opening.addElement(new OpeningObject(40, 70, 175, 220, ImageIO.read(new File("./Images/PlayerSprites/LargeBlueMale.png")), ImageIO.read(new File("./Images/PlayerSprites/BlueMale.png")), new Color(132, 153, 224)));
@@ -100,7 +102,8 @@ public class Main {
         opening.addElement(new OpeningObject(590, 320, 175, 220, ImageIO.read(new File("./Images/PlayerSprites/LargePinkFemale.png")), ImageIO.read(new File("./Images/PlayerSprites/PinkFemale.png")), new Color(229, 164, 235)));
 
         screens.add(opening);
-    }public static void addOpeningInstruction() throws IOException{ //screen 2
+    }
+    public static void addOpeningInstruction() throws IOException{ //screen 2
         OpeningScreen opening = new OpeningScreen();
         opening.setBackgroundImage(ImageIO.read(new File("./Images/Instructions/InstructionBackground.png")));
         opening.addStatic(new OpeningObject(0, 0, 800, 600, ImageIO.read(new File("./Images/Instructions/OpInstructions.png")), Color.white));
@@ -111,7 +114,6 @@ public class Main {
         OpeningScreen opening = new OpeningScreen();
         opening.setBackgroundImage(ImageIO.read(new File("./Images/Instructions/InstructionBackground.png")));
         opening.addStatic(new OpeningObject(0, 0, 800, 600, ImageIO.read(new File("./Images/Instructions/OneInstructions.png")), Color.white));
-        opening.addStatic(new OpeningObject(0, 0, 800, 600, ImageIO.read(new File("./Images/Instructions/OneInstructions2.png")), Color.white));
         
         opening.addStatic(new OpeningObject(420, 320, 0,0, ImageIO.read(new File("./Images/Instructions/Rope.png")), Color.white));
         opening.addStatic(new OpeningObject(510, 300, 0,0, ImageIO.read(new File("./Images/Classroom/BrokenTable.png")), Color.white));
@@ -155,12 +157,19 @@ public class Main {
         screen.addLetter("w");
         screens.add(screen);
     }
+    public static void addEnding() throws IOException{
+        OpeningScreen opening = new OpeningScreen();
+        opening.setBackgroundImage(ImageIO.read(new File("./Images/Instructions/Congratulations.png")));
+        opening.addStatic(new OpeningObject(420, 350, 0,0, ImageIO.read(new File("./Images/Catapul.png")), Color.white));
+        screens.add(opening);
+    }
     public static void main(String[] args) throws IOException{
         inventoryItems = new ArrayList<InventoryItem>();
         screens = new ArrayList<Screen>();
 
         //add all screens 
         addInventoryItems();
+        
         
         addOpening(); //0
         addOpeningInstruction(); //1
@@ -172,6 +181,7 @@ public class Main {
         addTwoInstruction(); //7
         addDamage(); //8
         addMultitasking(); //9
+        addEnding(); //10
 
         v = new Visualizer(screens, inventoryItems);
     }

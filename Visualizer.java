@@ -1,11 +1,3 @@
-/*
- * comments
- * hearts 
- * finish game screen
- * catapult animation
- * e button and reading screen
- */
-
 
 /**
  * Main.java
@@ -35,9 +27,7 @@ public class Visualizer{
     private ArrayList<Screen> screens = new ArrayList<Screen>();
     private ArrayList<InventoryItem> inventoryItems = new ArrayList<InventoryItem>();
     private Player player;
-    private int currentRoomCollisionElementB;
-    private int currentRoomCollisionElementC;
-    private int currentRoomCollisionElementE;
+    private int currentRoomCollisionElementB, currentRoomCollisionElementC, currentRoomCollisionElementE;
     private boolean damagedProperty = false;
     private MyMouseMotionListener mouseMotionListener = new MyMouseMotionListener(); 
     private MyMouseListener mouseListener = new MyMouseListener();
@@ -46,13 +36,10 @@ public class Visualizer{
 //------------------------------------------------------------------------------    
     public Visualizer(ArrayList<Screen> screens, ArrayList<InventoryItem> inventoryItems){
         player = new Player();
-        player.addMaterial((Material) inventoryItems.get(0)); player.addMaterial((Material) inventoryItems.get(0));
-        player.addMaterial((Material) inventoryItems.get(0)); player.addMaterial((Material) inventoryItems.get(2));
-        player.addMaterial((Material) inventoryItems.get(2)); player.addMaterial((Material) inventoryItems.get(2));
-        player.addMaterial((Material) inventoryItems.get(1));
         this.inventoryItems = inventoryItems;
         this.screens = screens;
         this.currentRoomCollisionElementB = this.currentRoomCollisionElementC= this.currentRoomCollisionElementE = -1;
+        
         curIndex = 0;
         currentScreen = this.screens.get(curIndex);
         gameWindow = new JFrame("Game Window");
@@ -67,7 +54,7 @@ public class Visualizer{
         gameWindow.setVisible(true);
         runGameLoop();
         
-    } // main method end
+    } 
     public static JFrame getWindow(){
         return gameWindow;
     }
@@ -93,19 +80,13 @@ public class Visualizer{
             
             if(currentScreen instanceof OpeningScreen){
                 g.drawImage(((OpeningScreen) currentScreen).getBackground(),0,0, this);
-                for(OpeningObject o: ((OpeningScreen) currentScreen).getElements()){
+                for(OpeningObject o: ((OpeningScreen) currentScreen).getElements()){ //buttons 
                     g.setColor(o.getColour());
                     
                     g.fillRect(o.getX(), o.getY(), o.getWidth(), o.getHeight());
                     g.setColor(Color.white);
                     g.fillRect(o.getX() + 10, o.getY() + 10, o.getWidth() - 20 , o.getHeight()- 20);
                     g.drawImage(o.getSprite(), o.getX() + 10 , o.getY() + 10, this);
-                    
-                    if(curIndex == 8){
-                        g.setColor(Color.yellow);
-                        g.fillRect(o.getX(), o.getY(), 10, 10);
-                        g.fillRect(o.getX() + 10, o.getY() + 10, 10, 10);
-                    }
                 }
 
                 for(OpeningObject o: ((OpeningScreen) currentScreen).getStaticElements()){
@@ -113,18 +94,19 @@ public class Visualizer{
                 }
             }else if(currentScreen instanceof Room){
                 g.drawImage(((Room) currentScreen).getBackground(),0,0, this);
+                //map items 
                 for(int ind = 0; ind < ((Room) currentScreen).getItems().size(); ind++){ 
                     MapObject r = ((Room) currentScreen).getItems().get(ind);
                     if(r.getImage() != null){
                         g.drawImage(r.getImage(),r.getX(),r.getY(), this);
                     }
-                    
                 }
                 //Inventory
                 try{
                     g.drawImage(ImageIO.read(new File("./Images/Header.png")), 0, 0, this);
                 }catch(IOException e){}
                 
+                //inventory material items
                 int index =0 ;
                 for(Material m: player.getMaterials().keySet()){
                     g.drawImage(m.getImage(), 474 + 66 * index, 8, this);
@@ -134,11 +116,12 @@ public class Visualizer{
                     }
                     index++;
                 }
+                //inventory tool items
                 for(Tool t: player.getTools()){
                     g.drawImage(t.getImage(), 474 + 66 * index, 8, this);
                     index++;
                 }
-
+                //check collisions (door and obstacles)
                 for(int ind = 0; ind < ((Room) currentScreen).getItems().size(); ind++){ 
                     MapObject r = ((Room) currentScreen).getItems().get(ind);
                     if(r.getTouching()){
@@ -171,6 +154,7 @@ public class Visualizer{
                 MultitaskingScreen temp = ((MultitaskingScreen) currentScreen);
                 g.drawImage(temp.getBackground(),0,0, this);
 
+                //draw items
                 for(int ind = 0; ind < temp.getItems().size(); ind++){ 
                     MapObject r = temp.getItems().get(ind);
                     if(r instanceof OptionalObject){
@@ -189,15 +173,29 @@ public class Visualizer{
                     if((int) b.getX() + b.getBallD() >= o.getX() && (int) b.getX() <= o.getX() + o.getW() &&
                         (int) b.getY() + b.getBallD() >= o.getY() && (int) b.getY() <= o.getY() + o.getH() ){
                             temp.removeBall(i);
-                            System.out.println("coll");
                             temp.decLives();
                             temp.getItem(1).setImage(temp.getLivesImage());
+
+                            if(temp.getLives() == 0){
+                                temp.reset();
+                                temp.endThread();
+                                for(int letterInd=0; letterInd < temp.getLetters().size(); letterInd++){
+                                    SpamLetter tempS = (SpamLetter) temp.getLetters(letterInd);
+                                    tempS.setCountImages();
+                                    temp.getItem(tempS.getInd()).setImage(tempS.getHundred());
+                                    temp.getItem(tempS.getInd() + 1).setImage(tempS.getTen());
+                                    temp.getItem(tempS.getInd() + 2).setImage(tempS.getOne());
+                                    temp.getItem(1).setImage(temp.getLivesImage()); 
+                                }
+                                currentScreen = screens.get(7);
+                                curIndex = 7;
+                            }
                     }
                     g.setColor(b.getColour());
                     g.fillOval((int)b.getX(), (int) b.getY(), b.getBallD(), b.getBallD());
                 }
             }
-        } // paintComponent method end
+        } 
     } // GraphicsPanel class end
     public class MyMouseListener implements MouseListener{
         public void mouseClicked(MouseEvent e){ 
@@ -213,14 +211,13 @@ public class Visualizer{
                         }
                         currentScreen = screens.get(curIndex);
                         //set coords as door
-                        if(currentScreen instanceof Room){
+                        if(currentScreen instanceof Room){ 
                             player.setX(((Room)currentScreen).getItems().get(0).getX());
                             player.setY(((Room)currentScreen).getItems().get(0).getY());
-                        }else if(currentScreen instanceof MultitaskingScreen){
-                            ((MultitaskingScreen) currentScreen).startThread();
+                        }else if(currentScreen instanceof MultitaskingScreen){ 
                             if(damagedProperty){
                                 ((MultitaskingScreen) currentScreen).overtimeInd(1);
-                            }
+                            } ((MultitaskingScreen) currentScreen).reset();
                         }
                         
                     }
@@ -235,7 +232,7 @@ public class Visualizer{
 
     public class MyMouseMotionListener implements MouseMotionListener{
         public void mouseMoved(MouseEvent e){
-            if(currentScreen instanceof OpeningScreen){
+            if(currentScreen instanceof OpeningScreen){ //buttons
                 for(OpeningObject o: ((OpeningScreen) currentScreen).getElements()){
                     if(e.getX() >= o.getX() && e.getX() <= o.getX() + o.getWidth() && 
                         e.getY() >= o.getY() && e.getY() <= o.getY() + o.getHeight()){
@@ -257,35 +254,40 @@ public class Visualizer{
         public void mouseDragged(MouseEvent e){ }         
     }
     public class MyKeyListener implements KeyListener{   
-        // method to process key pressed events (when a key goes down, i.e. immediately)
         public void keyPressed(KeyEvent e){}
-        // method to process key released events (when a key goes up)
         public void keyReleased(KeyEvent e){ 
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_ESCAPE){
                 gameWindow.dispose();
             }
         }   
-        // method to process key typed events (only typeable/printable keys)
         public void keyTyped(KeyEvent e){
             char keyChar = e.getKeyChar();
             if(currentScreen instanceof MultitaskingScreen){
                 if (((MultitaskingScreen) currentScreen).getLastKey() != keyChar){
                     MultitaskingScreen temp = (MultitaskingScreen) currentScreen;
+                    
                     int ind = temp.indexOfLetters(new SpamLetter(Character.toString(keyChar)));
+                    int otherInd = 0;
+                    if(ind == 0){otherInd = 1;}
                     if(ind != -1){
+                        if(temp.getCnt() == 0){
+                            temp.startThread();
+                        }
                         SpamLetter s = temp.getLetters(ind);
                         if(s.getCnt() != s.getRequired()){
                             s.increaseCnt();
-                            System.out.print(keyChar);
                             temp.incCnt();
                             temp.getItem(s.getInd()).setImage(s.getHundred());
                             temp.getItem(s.getInd() + 1).setImage(s.getTen());
                             temp.getItem(s.getInd() + 2).setImage(s.getOne());
+                        }else if(temp.getLetters(otherInd).getCnt() == temp.getLetters(otherInd).getRequired()){ //if both letters are complete
+                            curIndex++;
+                            currentScreen = screens.get(curIndex);
                         }
                     }temp.setLastKey(keyChar);
                 }
-            }else if((keyChar == 'b' || keyChar == 'B') && currentRoomCollisionElementB != -1){
+            }else if((keyChar == 'b' || keyChar == 'B') && currentRoomCollisionElementB != -1){ //break
                 BreakableObject m = ((BreakableObject)((Room) currentScreen).getItems().get(currentRoomCollisionElementB));
                 if(m.getType().equals("Projector")){
                     player.addMaterial(m.getMaterial());
@@ -296,7 +298,7 @@ public class Visualizer{
                 currentRoomCollisionElementB = -1;
                 damagedProperty = damagedProperty || (!m.getIsGood());
 
-            }else if((keyChar == 'c' || keyChar == 'C') && currentRoomCollisionElementC != -1){
+            }else if((keyChar == 'c' || keyChar == 'C') && currentRoomCollisionElementC != -1){ //collect
                 InventoryItem c = ((CollectableObject)((Room) currentScreen).getItems().get(currentRoomCollisionElementC)).getDropped();
                 if(c instanceof Tool){
                     player.addTool((Tool)c);
@@ -306,7 +308,7 @@ public class Visualizer{
                 
                 ((Room) currentScreen).removeIndex(currentRoomCollisionElementC);
                 currentRoomCollisionElementC = -1;
-            }else if((keyChar == 'e' || keyChar == 'E') && currentRoomCollisionElementE != -1){
+            }else if((keyChar == 'e' || keyChar == 'E') && currentRoomCollisionElementE != -1){ //enter
                 DoorObject r = (DoorObject) ((Room) currentScreen).getItems().get(currentRoomCollisionElementE);
                 if(r.getLeadToInd() != -1){
                     currentScreen = screens.get(r.getLeadToInd());
@@ -315,15 +317,18 @@ public class Visualizer{
                         player.setY(((Room)currentScreen).getItems().get(0).getY());
                     }
                 }else{
-                    if(player.getNum((Material)inventoryItems.get(0)) >= 3 && player.getNum((Material)inventoryItems.get(1)) >= 1
+                    if(player.getMaterialSize() == 3){
+                        if(player.getNum((Material)inventoryItems.get(0)) >= 3 && player.getNum((Material)inventoryItems.get(1)) >= 1
                         && player.getNum((Material)inventoryItems.get(2)) >= 3){
                             currentScreen = screens.get(7);
                             curIndex = 7;
+                            currentRoomCollisionElementE = currentRoomCollisionElementC = currentRoomCollisionElementB = -1;
+                        }
                     }
                 }
             }
 
-            if(currentScreen instanceof Room){
+            if(currentScreen instanceof Room){ //movement
                 if (keyChar == 'a' || keyChar == 'd' || keyChar == 'w' || keyChar == 's'){ player.move(keyChar); }
 
                 if(player.getX() < 0){ player.setX(0); }
@@ -348,4 +353,4 @@ public class Visualizer{
 
         }        
     }
-} // UsingPictures class
+} 

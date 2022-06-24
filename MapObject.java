@@ -7,20 +7,23 @@
 
 import java.awt.image.BufferedImage;
 
-public class MapObject extends GameObject{ //anything that the user cannot pass through
+public class MapObject extends GameObject{ 
     private String objectType;
     private BufferedImage image;
     private int width, height;
-    private int obstacle;
-    private boolean currentlyTouching = false;
+    private int obstacle; //0 = not obstacle, 1 = obstacle, 2 = door
+    private boolean currentlyTouching;
 
     public MapObject(int x, int y, BufferedImage image, String objectType){
         super(x,y);
         this.image = image;
         this.objectType = objectType;
         this.obstacle = 1;
+        this.currentlyTouching = false;
         this.setWH();
     }
+
+    //setters
     public void setImage(BufferedImage image){
         this.image = image;
     }
@@ -59,22 +62,16 @@ public class MapObject extends GameObject{ //anything that the user cannot pass 
             obstacle = 2;
         }else{ obstacle = 0; }
     }
-    //setters
     public void setTouchingFalse(){
         this.currentlyTouching = false;
     }
     public void setTouchingTrue(){
         this.currentlyTouching = true;
     }
+
     //getters 
     public boolean getTouching(){
         return this.currentlyTouching;
-    }
-    public boolean isObstacle(){
-        return this.obstacle == 1;
-    }
-    public boolean isDoor(){
-        return this.obstacle == 2;
     }
     public int getW(){
         return this.width;
@@ -88,5 +85,10 @@ public class MapObject extends GameObject{ //anything that the user cannot pass 
     public String getType(){
         return objectType;
     }
-
+    public boolean isObstacle(){
+        return this.obstacle == 1;
+    }
+    public boolean isDoor(){
+        return this.obstacle == 2;
+    }
 }

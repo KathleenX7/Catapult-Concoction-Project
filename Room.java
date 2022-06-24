@@ -9,13 +9,11 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Room extends Screen{
-    private String name;
     private BufferedImage backgroundImage;
     private ArrayList<MapObject> items;
 
-    public Room(String name){
+    public Room(){
         super("1");
-        this.name = name;
         items = new ArrayList<MapObject>();
     }
 
@@ -28,6 +26,7 @@ public class Room extends Screen{
     public void removeIndex(int ind){
         items.remove(ind);
     }
+    //getters 
     public BufferedImage getBackground(){
         return this.backgroundImage;
     }

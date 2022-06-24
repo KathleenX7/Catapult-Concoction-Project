@@ -10,10 +10,8 @@ import java.awt.Color;
 
 public class OpeningObject extends GameObject{
     private int width, height;
-    private BufferedImage sprite;
-    private BufferedImage smallSprite;
-    private Color outside;
-    private Color original;
+    private BufferedImage sprite, smallSprite;
+    private Color outside, original;
 
     public OpeningObject(int x, int y, int width, int height, BufferedImage sprite, Color outside){
         super(x,y);
@@ -33,6 +31,7 @@ public class OpeningObject extends GameObject{
         this.outside = outside;
         this.original = this.outside;
     }
+    //getters
     public BufferedImage getSprite(){
         return this.sprite;
     }
@@ -42,15 +41,17 @@ public class OpeningObject extends GameObject{
     public Color getColour(){
         return outside;
     }
-    public void setColour(Color outside){
-        this.outside = outside; 
-    }
     public int getWidth(){
         return this.width;
     }
     public int getHeight(){
         return height;
     }
+    //setters
+    public void setColour(Color outside){
+        this.outside = outside; 
+    }
+    
     public void resetColour(){
         this.outside = this.original;
     }
